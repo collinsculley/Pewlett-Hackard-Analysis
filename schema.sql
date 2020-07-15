@@ -77,3 +77,36 @@ SELECT * FROM dept_emp;
 COPY titles FROM '/Users/collinsculley/DataAustin2020/AustinDataCamp/Week7/Pewlett-Hackard-Analysis/Data/titles.csv' WITH (FORMAT CSV, HEADER);
 
 SELECT * FROM titles;
+
+-- retirement eligible = 90398
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1952-01-01' AND '1955-12-31';
+
+-- DOB '1952' = 21209
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1952-01-01' AND '1952-12-31';
+
+-- Retirement eligibility + hire date condition = 41380
+SELECT first_name, last_name
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+-- Implement COUNT function on previous code
+SELECT COUNT(first_name)
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+-- Create new table to easily export retirement eligible emp's
+SELECT first_name, last_name
+INTO retirement_info
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+SELECT * FROM retirement_info;
+
+COPY (select * from retirement_info) TO '/Users/collinsculley/DataAustin2020/AustinDataCamp/Week7/Pewlett-Hackard-Analysis/Data/retirement_info.csv' DELIMITER ',' CSV HEADER;
